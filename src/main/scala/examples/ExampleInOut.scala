@@ -48,7 +48,7 @@ object ExampleInOut {
       .withNaming(
         new SerializableFunction[String, FileNaming] {
           override def apply(partitionCol: String): FileNaming = {
-            FileIO.Write.defaultNaming(s"vehicleId=$partitionCol", ".parquet")
+            FileIO.Write.defaultNaming(s"Id=$partitionCol", ".parquet")
           }
         }
       )
@@ -65,7 +65,7 @@ object ExampleInOut {
         ),
         ParquetIO.sink(outputSchema)
       )
-      .to("gs://jayadeep-etl-platform/account/")
+      .to("gs://bucket-name/table-name")
 
     val m: SCollection[GenericRecord] = genericOut(sc,args,dynamicOutput)
 
@@ -85,7 +85,6 @@ object ExampleInOut {
         r.put("type", "checking")
         r
       }
-      //.saveAsCustomOutput("gs://jayadeep-etl-platform/parquet/",dynamicOutput)
   }
   val schema = {
     def f(name: String, tpe: Schema.Type) =
